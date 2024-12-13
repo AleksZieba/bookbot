@@ -4,12 +4,13 @@ def main():
     word_count = get_word_count(text) 
     char_count = get_character_count(text)
     char_list = get_character_report(char_count) 
-    print(char_list)
-    #print(f"""=== Report on {book_path} ===
-   # {word_count} words found in this book. 
-   # 
-   # {char_list}
-    #=== End of Report ===""")
+    sorted_char_count_list = sort_char_count_list(char_list)
+    formatted_string = char_count_format(sorted_char_count_list)
+    print(f"""=== Report on {book_path} ===
+    {word_count} words found in this book. 
+    
+    {formatted_string}
+    === End of Report ===""")
 
 def get_book_text(path): 
     with open(path) as f:
@@ -37,6 +38,18 @@ def get_character_report(char_count):
     return char_count_list 
 
 def sort_by(dict):
-    return dict["num"]
+    return dict["count"]
+
+def sort_char_count_list(char_list): 
+    char_list.sort(reverse=True, key=sort_by)
+    return char_list 
+
+def char_count_format(sorted_char_count_list): 
+    formatted_string = "" 
+    for i in range(len(sorted_char_count_list)): 
+        dictionary = sorted_char_count_list[i]
+        formatted_string += f"""Character '{dictionary["character"]}' appears {dictionary["count"]} times.
+    """
+    return formatted_string
 
 main()
